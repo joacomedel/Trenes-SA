@@ -39,13 +39,16 @@ public class HeapMin {
         }
     }
 
-    public void eliminarCima() {
+    public boolean eliminarCima() {
+        boolean elimino = false;
         if (!this.esVacio()) {
+            elimino = true;
             array[1] = array[ultimo];
             array[ultimo] = null;
             ultimo--;
             bajarElem(1);
         }
+        return elimino;
     }
 
     private void bajarElem(int pos) {
@@ -74,7 +77,7 @@ public class HeapMin {
     public String toString() {
         String str = "[";
         for (int index = 1; index <= ultimo; index++) {
-            str += array[index] + ",";
+            str += array[index].toString() + ",";
         }
         str += "]";
         return str;

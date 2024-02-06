@@ -1,5 +1,8 @@
 package Estructuras.Dinamicas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Grafo {
     private NodoVertice nodoInicial;
 
@@ -9,6 +12,31 @@ public class Grafo {
             nodoInicial = new NodoVertice(nodoInicial, obj);
         }
         return noEncontro;
+    }
+
+    public boolean eliminarVertice(Object elem) {
+        boolean elimino = false;
+        NodoVertice aux = this.nodoInicial;
+        NodoVertice anterior = null;
+        while (aux != null && !elimino) {
+            if (aux.getElem().equals(elem)) {
+                NodoAdy auxAdy = aux.getPrimerAdy();
+                while (auxAdy != null) {
+                    eliminarNodoAdy(auxAdy.getNodo(), elem);
+                    auxAdy = auxAdy.getNodoAdyacente();
+                }
+                aux.setPrimerAdy(null);
+                if (anterior == null) {
+                    this.nodoInicial = aux.getSigNodoVert();
+                } else {
+                    anterior.setSigNodoVert(aux.getSigNodoVert());
+                }
+                elimino = true;
+            }
+            anterior = aux;
+            aux = aux.getSigNodoVert();
+        }
+        return elimino;
     }
 
     public boolean insertarArco(Object elemVert1, Object elemVert2, Object etiqueta) {
@@ -23,7 +51,7 @@ public class Grafo {
             if (aux.getElem().equals(elemVert2)) {
                 nodoFinal = aux;
             }
-            aux.getSigNodoVert();
+            aux = aux.getSigNodoVert();
         }
         exito = nodoOrigen != null && nodoFinal != null;
         if (exito) {
@@ -63,6 +91,7 @@ public class Grafo {
                 temp = eliminarNodoAdy(nodoOrigen, elemVert1);
             }
             if (temp != null) {
+                exito = true;
                 if (elemVert1Comparado) {
                     eliminarNodoAdy(temp, elemVert1);
                 } else {
@@ -105,5 +134,144 @@ public class Grafo {
             aux = aux.getSigNodoVert();
         }
         return aux;
+    }
+
+    public List<Object> listarEnProfundidad() {
+        List<Object> visitados = new ArrayList<Object>();
+        NodoVertice aux = this.nodoInicial;
+        while (aux != null) {
+            if (!visitados.contains(aux.getElem())) {
+                listarEnProfundidadRec(aux, visitados);
+            }
+            aux = aux.getSigNodoVert();
+        }
+        return visitados;
+    }
+
+    private void listarEnProfundidadRec(NodoVertice nodo, List<Object> visitados) {
+        if (nodo != null) {
+            visitados.add(nodo.getElem());
+            NodoAdy nodoAdy = nodo.getPrimerAdy();
+            while (nodoAdy != null) {
+                if (!visitados.contains(nodoAdy.getNodo().getElem())) {
+                    listarEnProfundidadRec(nodoAdy.getNodo(), visitados);
+                }
+                nodoAdy = nodoAdy.getNodoAdyacente();
+            }
+        }
+    }
+
+    public List<Object> caminoMasCortoVertices(Object elemPartida, Object elemLlegada) {
+        boolean encontroPartida = false;
+        boolean encontroLlegada = false;
+        NodoVertice aux = this.nodoInicial;
+        while (!encontroPartida && !encontroLlegada && aux != null) {
+            encontroPartida = aux.getElem().equals(elemPartida);
+            encontroLlegada = aux.getElem().equals(elemLlegada);
+            if (!encontroPartida && !encontroLlegada) {
+                aux = aux.getSigNodoVert();
+            }
+        }
+        List<Object>[] listas = new ArrayList[2];
+        listas[0] = new ArrayList<>();
+        listas[1] = new ArrayList<>();
+        if (encontroLlegada) {
+            caminoMasCortoVerticesAux(elemPartida, aux, listas);
+        } else {
+            if (encontroPartida) {
+                caminoMasCortoVerticesAux(elemLlegada, aux, listas);
+            }
+        }
+        return listas[1];
+    }
+
+    private void caminoMasCortoVerticesAux(Object elem, NodoVertice nodo, List<Object>[] listas) {
+        // listas 0 lista actual
+        // listas 1 lista mas corta
+        if (nodo != null && !listas[0].contains(nodo.getElem())) {
+            listas[0].add(nodo.getElem());
+            if (!elem.equals(nodo.getElem())) {
+                if (listas[1].size() != 0 && listas[0].size() >= listas[1].size()) {
+                    listas[0].remove(nodo.getElem());
+                } else {
+                    NodoAdy auxAdy = nodo.getPrimerAdy();
+                    while (auxAdy != null) {
+                        caminoMasCortoVerticesAux(elem, auxAdy.getNodo(), listas);
+                        auxAdy = auxAdy.getNodoAdyacente();
+                    }
+                }
+            } else {
+                if (listas[1].size() == 0 || listas[1].size() > listas[0].size()) {
+                    // Si tod no encontramos una camino minimo , o si el camino actual es menor al
+                    // camino minimo
+                    listas[1] = new ArrayList<>(listas[0]);
+                }
+            }
+            listas[0].remove(nodo.getElem());
+        }
+    }
+
+    public List<Object> caminoMasCortoDistancia(Object elemPartida, Object elemLlegada) {
+        boolean encontroPartida = false;
+        boolean encontroLlegada = false;
+        NodoVertice aux = this.nodoInicial;
+        while (!encontroPartida && !encontroLlegada && aux != null) {
+            encontroPartida = aux.getElem().equals(elemPartida);
+            encontroLlegada = aux.getElem().equals(elemLlegada);
+            if (!encontroPartida && !encontroLlegada) {
+                aux = aux.getSigNodoVert();
+            }
+        }
+        List<Object>[] listas = new ArrayList[2];
+        listas[0] = new ArrayList<>();
+        listas[1] = new ArrayList<>();
+        int[] distancias = { 0, 0 };
+        if (encontroLlegada) {
+            caminoMasCortoDistanciaAux(elemPartida, aux, listas, distancias);
+        } else {
+            if (encontroPartida) {
+                caminoMasCortoDistanciaAux(elemLlegada, aux, listas, distancias);
+            }
+        }
+        return listas[1];
+    }
+
+    private void caminoMasCortoDistanciaAux(Object elem, NodoVertice nodo, List<Object>[] listas, int[] distancias) {
+        // listas 0 lista actual
+        // listas 1 lista mas corta
+        // distancia 0 , distancia actual
+        // distancia 1 , distancia mas corta
+        if (nodo != null && !listas[0].contains(nodo.getElem())) {
+            listas[0].add(nodo.getElem());
+            // sumo distancia?
+            if (!elem.equals(nodo.getElem())) {
+
+            } else {
+                // es el nodo q buscamos
+                if (distancias[1] == 0 || distancias[1] > distancias[0]) {
+                    // Si tod no encontramos una distancia minima , o si la distancia actual es
+                    // menor a la minima
+                    listas[1] = new ArrayList<>(listas[0]);
+                }
+            }
+        }
+        listas[0].remove(nodo.getElem());
+    }
+
+    @Override
+    public String toString() {
+        NodoVertice aux = this.nodoInicial;
+        String retorna = "";
+        while (aux != null) {
+            String strTemp = "[" + aux.getElem() + "]";
+            NodoAdy auxAdy = aux.getPrimerAdy();
+            while (auxAdy != null) {
+                strTemp += "(" + auxAdy.getNodo().getElem() + "," + auxAdy.getEtiqueta() + ")";
+                auxAdy = auxAdy.getNodoAdyacente();
+            }
+            retorna += strTemp + "\n";
+            aux = aux.getSigNodoVert();
+        }
+        return retorna;
     }
 }
