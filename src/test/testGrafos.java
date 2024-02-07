@@ -23,6 +23,7 @@ public class testGrafos {
         grafo.insertarArco("Plottier", "Centenario", 17);
         grafo.insertarArco("Centenario", "Ciudad basura", 17);
         System.out.println(grafo.toString());
-        System.out.println(grafo.caminoMasCortoVertices("Cinco saltos", "Plottier"));
+        System.out.println(grafo.caminoMasCortoDistancia("Cinco saltos", "Plottier"));
+        System.out.println(grafo.existeCaminoDistanciaMax("Cinco saltos", "Neuquen", 1));
     }
 }

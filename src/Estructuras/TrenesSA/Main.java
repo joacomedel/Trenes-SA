@@ -1,4 +1,4 @@
-package test;
+package Estructuras.TrenesSA;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,12 +13,8 @@ import java.util.StringTokenizer;
 
 import Estructuras.Dinamicas.Diccionario;
 import Estructuras.Dinamicas.Grafo;
-import Estructuras.TrenesSA.Estacion;
-import Estructuras.TrenesSA.EstacionMenu;
-import Estructuras.TrenesSA.Linea;
-import Estructuras.TrenesSA.Tren;
 
-public class testInsercciones {
+public class Main {
     static Diccionario trenes = new Diccionario();
     static Diccionario estaciones = new Diccionario();
     static HashMap<String, Object> lineas = new HashMap<String, Object>();

@@ -3,12 +3,14 @@ package Estructuras.Dinamicas;
 import java.util.ArrayList;
 import java.util.List;
 
+import Estructuras.Estaticas.ColaPrioridad;
+
 public class Grafo {
     private NodoVertice nodoInicial;
 
     public boolean insertarVertice(Object obj) {
         boolean noEncontro = ubicarVertice(obj) == null;
-        if (ubicarVertice(obj) == null) {
+        if (noEncontro) {
             nodoInicial = new NodoVertice(nodoInicial, obj);
         }
         return noEncontro;
@@ -191,9 +193,10 @@ public class Grafo {
         if (nodo != null && !listas[0].contains(nodo.getElem())) {
             listas[0].add(nodo.getElem());
             if (!elem.equals(nodo.getElem())) {
-                if (listas[1].size() != 0 && listas[0].size() >= listas[1].size()) {
-                    listas[0].remove(nodo.getElem());
-                } else {
+                if (listas[1].size() == 0 || listas[0].size() < listas[1].size()) {
+                    // entro si tod no encontre camino minimo , si encontre me fijo q el camino
+                    // actual
+                    // sea menor al camino minimo "cortocircuito"
                     NodoAdy auxAdy = nodo.getPrimerAdy();
                     while (auxAdy != null) {
                         caminoMasCortoVerticesAux(elem, auxAdy.getNodo(), listas);
@@ -241,21 +244,146 @@ public class Grafo {
         // listas 1 lista mas corta
         // distancia 0 , distancia actual
         // distancia 1 , distancia mas corta
+        int distTemp = distancias[0];
         if (nodo != null && !listas[0].contains(nodo.getElem())) {
+            // entra si el nodo no es nulo , y si el nodo actual no es en la lista actual ,
+            // anti ciclos
             listas[0].add(nodo.getElem());
-            // sumo distancia?
             if (!elem.equals(nodo.getElem())) {
-
+                // No es el elemento
+                if (distancias[1] == 0 || distancias[0] < distancias[1]) {
+                    // No registro ninguna distancia minima , o la distancia actual es menor a la
+                    // minima
+                    ColaPrioridad colaPrioridad = new ColaPrioridad(100);
+                    NodoAdy auxAdy = nodo.getPrimerAdy();
+                    while (auxAdy != null) {
+                        colaPrioridad.insertar(auxAdy, (Comparable) auxAdy.getEtiqueta());
+                        auxAdy = auxAdy.getNodoAdyacente();
+                    }
+                    // Almacena todos los adyacentes en una cola de prioridad para ir siempre por el
+                    // mas chico
+                    while (!colaPrioridad.esVacio()) {
+                        distancias[0] = distTemp;
+                        // Setea la distancia actual que puede estar modificada , por la verdadera
+                        // distancia actual guardada el inicio del metodo
+                        NodoVertice temp = ((NodoAdy) colaPrioridad.obtenerFrente()).getNodo();
+                        distancias[0] += (int) ((NodoAdy) colaPrioridad.obtenerFrente()).getEtiqueta();
+                        // Sumo la distancia hacia donde voy a ir
+                        colaPrioridad.eliminarFrente();
+                        // llama a la funcion con el nodo adyacente mas "cercano"
+                        caminoMasCortoDistanciaAux(elem, temp, listas, distancias);
+                    }
+                }
             } else {
                 // es el nodo q buscamos
                 if (distancias[1] == 0 || distancias[1] > distancias[0]) {
                     // Si tod no encontramos una distancia minima , o si la distancia actual es
                     // menor a la minima
                     listas[1] = new ArrayList<>(listas[0]);
+                    distancias[1] = distancias[0];
                 }
             }
+            listas[0].remove(nodo.getElem());
+            distancias[0] = distTemp;
         }
-        listas[0].remove(nodo.getElem());
+    }
+
+    public List caminosPosiblesSinPasar(Object a, Object b, Object c) {
+        // Llegar desde a , b sin pasar por c
+        List<List> listaDeListas = new ArrayList<List>();
+        NodoVertice aux = this.nodoInicial;
+        boolean encontroA = false;
+        boolean encontroB = false;
+        while (aux != null && !encontroA && !encontroB) {
+            encontroA = aux.getElem().equals(a);
+            encontroB = aux.getElem().equals(b);
+            if (!encontroA && !encontroB) {
+                aux = aux.getSigNodoVert();
+            }
+            if (encontroA) {
+                caminosPosiblesSinPasarAux(aux, b, c, listaDeListas, new ArrayList<>());
+            } else if (encontroB) {
+                caminosPosiblesSinPasarAux(aux, a, c, listaDeListas, new ArrayList<>());
+            }
+        }
+        return listaDeListas;
+    }
+
+    private void caminosPosiblesSinPasarAux(NodoVertice nodo, Object elem, Object noPasar, List listaAcum,
+            List listaActual) {
+        if (nodo != null && !listaActual.contains(nodo.getElem()) && !nodo.getElem().equals(noPasar)) {
+            listaActual.add(nodo.getElem());
+            if (!nodo.getElem().equals(elem)) {
+                NodoAdy auxAdy = nodo.getPrimerAdy();
+                while (auxAdy != null) {
+                    caminosPosiblesSinPasarAux(auxAdy.getNodo(), elem, noPasar, listaAcum, listaActual);
+                    auxAdy = auxAdy.getNodoAdyacente();
+                }
+            } else {
+                listaAcum.add(new ArrayList<>(listaActual));
+            }
+            listaActual.remove(nodo.getElem());
+        }
+    }
+
+    public boolean existeCaminoDistanciaMax(Object elemPartida, Object elemLlegada, int distanciaMax) {
+        boolean encontroPartida = false;
+        boolean encontroLlegada = false;
+        boolean caminoExiste = false;
+        NodoVertice aux = this.nodoInicial;
+        while (!encontroPartida && !encontroLlegada && aux != null) {
+            encontroPartida = aux.getElem().equals(elemPartida);
+            encontroLlegada = aux.getElem().equals(elemLlegada);
+            if (!encontroPartida && !encontroLlegada) {
+                aux = aux.getSigNodoVert();
+            }
+        }
+        List<Object> lista = new ArrayList<>();
+        int[] distancias = { 0, distanciaMax };
+        if (encontroLlegada) {
+            caminoExiste = existeCaminoDistanciaMaxAux(elemPartida, aux, lista, distancias);
+        } else {
+            if (encontroPartida) {
+                caminoExiste = existeCaminoDistanciaMaxAux(elemLlegada, aux, lista, distancias);
+            }
+        }
+        return caminoExiste;
+    }
+
+    private boolean existeCaminoDistanciaMaxAux(Object elem, NodoVertice nodo, List<Object> visitados,
+            int[] distancias) {
+        boolean existeCamino = false;
+        // distancia 0 , distancia actual
+        // distancia 1 , distancia maxima
+        int distTemp = distancias[0];
+        if (nodo != null && !visitados.contains(nodo.getElem()) && (distancias[0] < distancias[1])) {
+            visitados.add(nodo.getElem());
+            if (!nodo.getElem().equals(elem)) {
+                ColaPrioridad colaPrioridad = new ColaPrioridad(100);
+                NodoAdy auxAdy = nodo.getPrimerAdy();
+                while (auxAdy != null) {
+                    colaPrioridad.insertar(auxAdy, (Comparable) auxAdy.getEtiqueta());
+                    auxAdy = auxAdy.getNodoAdyacente();
+                }
+                // Almacena todos los adyacentes en una cola de prioridad para ir siempre por el
+                // mas chico
+                while (!colaPrioridad.esVacio() && !existeCamino) {
+                    distancias[0] = distTemp;
+                    // Setea la distancia actual que puede estar modificada , por la verdadera
+                    // distancia actual guardada el inicio del metodo
+                    NodoVertice temp = ((NodoAdy) colaPrioridad.obtenerFrente()).getNodo();
+                    distancias[0] += (int) ((NodoAdy) colaPrioridad.obtenerFrente()).getEtiqueta();
+                    // Sumo la distancia hacia donde voy a ir
+                    colaPrioridad.eliminarFrente();
+                    // llama a la funcion con el nodo adyacente mas "cercano"
+                    existeCamino = existeCaminoDistanciaMaxAux(elem, temp, visitados, distancias);
+                }
+            } else {
+                existeCamino = true;
+            }
+        }
+        return existeCamino;
+
     }
 
     @Override

@@ -10,7 +10,7 @@ public class ColaPrioridad {
         heap = new HeapMin(tamanio);
     }
 
-    public boolean insertar(Object elem, int valor) {
+    public boolean insertar(Object elem, Comparable valor) {
         boolean inserto = false;
         inserto = heap.insertar(new NodoColaP<Object>(elem, valor));
         return inserto;

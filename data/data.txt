@@ -1,9 +1,86 @@
-T;234;diesel;5;6;Mitre
-T;6789;eléctrico;10;1;Roca
-T;893;gasolina;0;11;no-asignado
 E;Retiro;Av. Dr. José María Ramos Mejía;1430;CABA;C1104;9;6
 E;Córdoba;Boulevard Juan Domingo Perón;101;Córdoba;5000;6;4
 E;Mar del Plata;San Juan;1642;Mar del Plata;7600;5;4
-L;Mitre;Retiro;Campana;Zárate;Baradero
-L;Roca;Plaza Constitución;Haedo;Cañuelas
+E;Campana;Av. Rocca;200;Campana;2804;4;3
+E;Zárate;Av. Mitre;850;Zárate;2800;4;3
+E;Rosario;Av. Francia;1400;Rosario;2000;6;4
+E;Plaza Constitución;Av. Brasil;1;CABA;C1093;8;5
+E;Haedo;Av. Rivadavia;15000;Haedo;1706;3;2
+E;Cañuelas;Buenos Aires;600;Cañuelas;1814;3;2
+E;San Miguel;Av. Presidente Perón;1400;San Miguel;1663;3;2
+E;Tigre;Av. Cazón;100;Tigre;1648;4;3
+E;Lanús;Av. Hipólito Yrigoyen;5000;Lanús;1824;3;2
+E;La Plata;Calle 1;500;La Plata;1900;6;4
+E;Tandil;Av. Santamarina;1400;Tandil;7000;4;3
+E;Junín;Av. San Martín;100;Junín;6000;5;3
+E;Azul;Av. Mitre;200;Azul;7300;4;3
+E;Olavarría;Av. Pringles;2000;Olavarría;7400;5;4
+E;Bahía Blanca;Av. Alem;500;Bahía Blanca;8000;6;4
+E;Pergamino;Av. de Mayo;100;Pergamino;2700;4;3
+E;San Nicolás;Av. Rivadavia;600;San Nicolás;2900;4;3
+E;Baradero;Av. Argentina ;100;San Nicolás;2900;4;3
 
+L;Mitre;Retiro;Campana;Zárate;Baradero;San Miguel;Tigre;Olavarría;Junín;Pergamino;Córdoba
+L;Roca;Plaza Constitución;Haedo;Cañuelas;Lanús;La Plata;Tandil;Azul;Bahía Blanca;San Nicolás
+L;Linea A;Mar del Plata;Córdoba;Rosario
+
+R;Retiro;Campana;80
+R;Zárate;Baradero;74
+R;Zárate;Campana;80
+R;Córdoba;Rosario;400
+R;Plaza Constitución;Haedo;23
+R;Haedo;Cañuelas;65
+R;Campana;Zárate;20
+R;Retiro;Plaza Constitución;10
+R;Campana;Rosario;180
+R;Zárate;Rosario;200
+R;Retiro;Córdoba;700
+R;Retiro;Mar del Plata;400
+R;Mar del Plata;Córdoba;600
+R;Rosario;Córdoba;500
+R;Córdoba;Zárate;450
+R;Plaza Constitución;Mar del Plata;410
+R;Mar del Plata;Cañuelas;220
+R;Cañuelas;Zárate;180
+R;Haedo;Rosario;250
+R;Campana;Plaza Constitución;120
+R;Retiro;Zárate;90
+R;Zárate;Córdoba;700
+R;Córdoba;Plaza Constitución;800
+R;Mar del Plata;Haedo;360
+R;Zárate;Haedo;340
+R;Rosario;Plaza Constitución;700
+R;Plaza Constitución;Córdoba;750
+R;San Miguel;Tigre;15
+R;Tigre;Olavarría;320
+R;Olavarría;Junín;110
+R;Junín;Pergamino;45
+R;Pergamino;San Nicolás;60
+R;San Nicolás;Bahía Blanca;250
+R;Bahía Blanca;Azul;300
+R;Azul;Tandil;180
+R;Tandil;La Plata;400
+R;La Plata;Lanús;50
+R;Lanús;Plaza Constitución;15
+
+
+T;234;diésel;5;6;Mitre
+T;6789;eléctrico;10;1;Roca
+T;893;gasolina;0;11;no-asignado
+T;567;diésel;7;4;Mitre
+T;890;eléctrico;8;2;Roca
+T;123;diésel;6;5;Mitre
+T;456;eléctrico;9;3;Roca
+T;789;gasolina;0;10;no-asignado
+T;1011;eléctrico;7;1;Roca
+T;1213;diésel;4;3;Mitre
+T;1415;eléctrico;8;2;Roca
+T;1617;gasolina;0;9;no-asignado
+T;1819;diésel;6;4;Mitre
+T;2021;eléctrico;9;2;Roca
+T;2223;diésel;5;5;Mitre
+T;2425;eléctrico;8;3;Roca
+T;2627;gasolina;0;8;no-asignado
+T;2829;diésel;4;4;Mitre
+T;3031;eléctrico;10;2;Roca
+T;3233;diésel;6;6;Mitre
