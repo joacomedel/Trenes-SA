@@ -30,15 +30,12 @@ R;Zárate;Campana;80
 R;Córdoba;Rosario;400
 R;Plaza Constitución;Haedo;23
 R;Haedo;Cañuelas;65
-R;Campana;Zárate;20
 R;Retiro;Plaza Constitución;10
 R;Campana;Rosario;180
 R;Zárate;Rosario;200
 R;Retiro;Córdoba;700
 R;Retiro;Mar del Plata;400
 R;Mar del Plata;Córdoba;600
-R;Rosario;Córdoba;500
-R;Córdoba;Zárate;450
 R;Plaza Constitución;Mar del Plata;410
 R;Mar del Plata;Cañuelas;220
 R;Cañuelas;Zárate;180
@@ -50,7 +47,6 @@ R;Córdoba;Plaza Constitución;800
 R;Mar del Plata;Haedo;360
 R;Zárate;Haedo;340
 R;Rosario;Plaza Constitución;700
-R;Plaza Constitución;Córdoba;750
 R;San Miguel;Tigre;15
 R;Tigre;Olavarría;320
 R;Olavarría;Junín;110
@@ -84,3 +80,18 @@ T;2627;gasolina;0;8;no-asignado
 T;2829;diésel;4;4;Mitre
 T;3031;eléctrico;10;2;Roca
 T;3233;diésel;6;6;Mitre
+
+E;prueba;TESTEO FALTA TOKENS
+E;prueba;Av. Argentina ;100;San Nicolás;2900;TESTEO METER STRING DONDE VA INT;3
+
+L;Testeo meter linea sin estaciones
+L;Linea test;Plaza Constitución;TESTEO LINEA NO EXISTENTE;Cañuelas
+
+
+R;Placeholder;Plaza Constitución;TESTEO METER STRING DONDE VA INT
+R;Placeholder;Testeo meter estacion no existente;0
+R;Placeholder;Testeo falta tokens
+
+T;0101;diésel;6;6;TESTEO LINEA NO EXISTENTE
+T;0101;diésel;6;TESTEO METER STRING DONDE VA INT;Mitre
+T;0101;Testeo falta de tokens

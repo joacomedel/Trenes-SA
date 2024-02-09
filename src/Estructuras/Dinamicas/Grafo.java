@@ -69,6 +69,60 @@ public class Grafo {
         return exito;
     }
 
+    public boolean modificarArco(Object origen, Object destino, int etiquetaNueva) {
+        boolean exito = false;
+        NodoVertice aux = this.nodoInicial;
+        boolean encontroOrigen = false;
+        boolean encontroFinal = false;
+        while (aux != null && !encontroOrigen && !encontroFinal) {
+            encontroOrigen = aux.getElem().equals(origen);
+            encontroFinal = aux.getElem().equals(destino);
+            aux = aux.getSigNodoVert();
+        }
+        if (encontroOrigen) {
+            if (!encontroFinal) {
+                NodoAdy auxAdy = modificarArcoAux(aux, destino, etiquetaNueva);
+                if (auxAdy != null) {
+                    exito = true;
+                    modificarArcoAux(auxAdy.getNodo(), origen, etiquetaNueva);
+                }
+            } else {
+                // caso lazo
+                // SI modificarArcoAux devuelve null no encontro , no existe el lazo
+                exito = modificarArcoAux(aux, destino, etiquetaNueva) != null;
+            }
+        } else {
+            if (encontroFinal) {
+                NodoAdy auxAdy = modificarArcoAux(aux, origen, etiquetaNueva);
+                if (auxAdy != null) {
+                    exito = true;
+                    modificarArcoAux(auxAdy.getNodo(), destino, etiquetaNueva);
+                }
+            }
+        }
+        return exito;
+    }
+
+    public NodoAdy modificarArcoAux(NodoVertice nodo, Object elem, int etiqueta) {
+        // De un nodo vertice busca en todos sus ady hasta encontrar el elem buscado y
+        // altera su etiqueta
+        // Devuelve el nodo vertice correspondiente al nodoAdy encontrado , si no
+        // encuentra nodo ady devuelve null
+        Boolean encontro = false;
+        NodoAdy auxAdy = nodo.getPrimerAdy();
+        while (!encontro && auxAdy != null) {
+            encontro = auxAdy.getNodo().getElem().equals(elem);
+            if (!encontro) {
+                auxAdy = auxAdy.getNodoAdyacente();
+            }
+
+        }
+        if (encontro) {
+            auxAdy.setEtiqueta(etiqueta);
+        }
+        return auxAdy;
+    }
+
     public boolean eliminarArco(Object elemVert1, Object elemVert2) {
         boolean exito = false;
         NodoVertice aux = this.nodoInicial;
@@ -123,6 +177,8 @@ public class Grafo {
                     if (encontro) {
                         nodoRef = nodoAdy.getNodo();
                         anterior.setNodoAdyacente(nodoAdy.getNodoAdyacente());
+                    } else {
+                        nodoAdy = nodoAdy.getNodoAdyacente();
                     }
                 }
             }

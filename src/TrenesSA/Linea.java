@@ -1,4 +1,4 @@
-package Estructuras.TrenesSA;
+package TrenesSA;
 
 import java.util.List;
 
@@ -9,6 +9,18 @@ public class Linea {
 
     public Linea(List<String> estaciones) {
         this.estaciones = estaciones;
+    }
+
+    public boolean eliminarEstacion(String estacion) {
+        return estaciones.remove(estacion);
+    }
+
+    public boolean agregarEstacion(String estacion) {
+        return estaciones.add(estacion);
+    }
+
+    public List<String> getEstaciones() {
+        return estaciones;
     }
 
     @Override

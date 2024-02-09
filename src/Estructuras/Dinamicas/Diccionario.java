@@ -1,5 +1,10 @@
 package Estructuras.Dinamicas;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import TrenesSA.Main;
+
 public class Diccionario {
     NodoDiccionario raiz;
 
@@ -11,13 +16,11 @@ public class Diccionario {
         int[] arr = { 0 };
         if (esVacio()) {
             raiz = new NodoDiccionario(clave, dato);
+            arr[0] = 1;
         } else {
             insertarRec(raiz, null, clave, dato, arr);
         }
-        boolean inserto = true;
-        if (arr[0] == 0)
-            inserto = false;
-        return inserto;
+        return arr[0] != 0;
     }
 
     private void insertarRec(NodoDiccionario nodo, NodoDiccionario padre, Comparable clave, Object dato, int[] bool) {
@@ -67,7 +70,7 @@ public class Diccionario {
             if (nodo.getHijIzq() != null && nodo.getHijDer() != null) {
                 // Tiene los dos hijos
                 boolean[] bool = { false };
-                NodoDiccionario nodoGrande = eliminarDosHijos(nodo.getHijIzq(), bool);
+                NodoDiccionario nodoGrande = eliminarDosHijos(nodo.getHijIzq(), bool, nodo);
                 if (bool[0]) {
                     // Si esta en true , entonces el hijo izq no tiene hij derecho
                     nodo.setHijIzq(nodoGrande.getHijIzq());
@@ -86,7 +89,7 @@ public class Diccionario {
                     nodoGrande.setHijDer(nodo.getHijDer());
                     nodoGrande.setHijIzq(nodo.getHijIzq());
                 }
-                nodoGrande.calcularAltura();
+                nodo = nodoGrande;
             } else {
                 if (nodo.getHijIzq() == null && nodo.getHijDer() != null) {
                     // Tiene hijo Der
@@ -146,13 +149,14 @@ public class Diccionario {
         balancear(nodo, padre);
     }
 
-    private NodoDiccionario eliminarDosHijos(NodoDiccionario nodo, boolean[] asignarIzq) {
+    private NodoDiccionario eliminarDosHijos(NodoDiccionario nodo, boolean[] asignarIzq, NodoDiccionario padre) {
         NodoDiccionario nodoRetornar;
         if (nodo.getHijDer() != null) {
-            nodoRetornar = eliminarDosHijos(nodo.getHijDer(), asignarIzq);
+            nodoRetornar = eliminarDosHijos(nodo.getHijDer(), asignarIzq, nodo);
             if (asignarIzq[0]) {
                 nodo.setHijDer(nodoRetornar.getHijIzq());
                 asignarIzq[0] = false;
+                this.balancear(nodo, padre);
             }
         } else {
             nodoRetornar = nodo;
@@ -166,7 +170,6 @@ public class Diccionario {
         boolean balanceo = false;
         int balance = getBalance(nodo);
         if (balance >= 2) {
-            System.out.println("NODO DESBALANCEADO hacia izq");
             if (getBalance(nodo.getHijIzq()) >= 0) {
                 rotSimpDer(nodo, padre);
             } else {
@@ -175,7 +178,6 @@ public class Diccionario {
             }
             balanceo = true;
         } else if (balance <= -2) {
-            System.out.println("NODO DESBALANCEADO hacia der");
             if (getBalance(nodo.getHijDer()) <= 0) {
                 rotSimpIzq(nodo, padre);
             } else {
@@ -267,6 +269,33 @@ public class Diccionario {
 
     public Object obtener(Comparable clave) {
         return obtenerRecursivo(clave, raiz);
+    }
+
+    public List<Object> obtenesSubString(String subString) {
+        List<Object> lista = new ArrayList<Object>();
+        if (this.raiz != null) {
+            obtenesSubStringAux(this.raiz, subString.length(), subString, lista);
+        }
+        return lista;
+    }
+
+    private void obtenesSubStringAux(NodoDiccionario nodo, int longSubString, String subString, List<Object> lista) {
+        if (nodo != null) {
+            if (((String) nodo.getClave()).substring(0, longSubString).equals(subString)) {
+                lista.add(nodo.getDato());
+                obtenesSubStringAux(nodo.getHijIzq(), longSubString, subString, lista);
+                obtenesSubStringAux(nodo.getHijDer(), longSubString, subString, lista);
+                // Si encuentro la subString busco en los dos hijos
+            } else {
+                // Si no encuentro la substring comparo y viajo al hijo adecuado
+                int comparacion = ((Comparable) subString).compareTo(nodo.getClave());
+                if (comparacion < 0) {
+                    obtenesSubStringAux(nodo.getHijIzq(), longSubString, subString, lista);
+                } else {
+                    obtenesSubStringAux(nodo.getHijDer(), longSubString, subString, lista);
+                }
+            }
+        }
     }
 
     private Object obtenerRecursivo(Comparable clave, NodoDiccionario nodo) {

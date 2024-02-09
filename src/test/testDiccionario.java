@@ -1,7 +1,7 @@
 package test;
 
 import Estructuras.Dinamicas.Diccionario;
-import Estructuras.TrenesSA.Tren;
+import TrenesSA.Tren;
 
 public class testDiccionario {
 

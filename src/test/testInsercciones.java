@@ -13,10 +13,10 @@ import java.util.StringTokenizer;
 
 import Estructuras.Dinamicas.Diccionario;
 import Estructuras.Dinamicas.Grafo;
-import Estructuras.TrenesSA.Estacion;
-import Estructuras.TrenesSA.EstacionMenu;
-import Estructuras.TrenesSA.Linea;
-import Estructuras.TrenesSA.Tren;
+import TrenesSA.Estacion;
+import TrenesSA.EstacionMenu;
+import TrenesSA.Linea;
+import TrenesSA.Tren;
 
 public class testInsercciones {
     static Diccionario trenes = new Diccionario();
