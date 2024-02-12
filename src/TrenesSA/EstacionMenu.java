@@ -351,7 +351,7 @@ public class EstacionMenu {
                     lectura = scGlobal.nextLine();
                     Main.registrarLog("Intento buscar estacion con la substring:" + lectura);
                     // cambiarlo a listar por rango
-                    List<Object> lista = estacionesGlobal.listarRango(lectura, lectura + "ZZZ");
+                    List<Object> lista = estacionesGlobal.listarRango(lectura, lectura + "zzz");
                     if (lista.size() != 0) {
                         System.out.println("Las estaciones encontradas son:");
                         for (Object object : lista) {
