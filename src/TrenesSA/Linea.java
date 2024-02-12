@@ -6,9 +6,13 @@ import javax.sound.sampled.ReverbType;
 
 public class Linea {
     List<String> estaciones;
+    String nombreLinea;
+    boolean funcionando;
 
-    public Linea(List<String> estaciones) {
+    public Linea(String nombreLinea, List<String> estaciones, boolean funcionando) {
         this.estaciones = estaciones;
+        this.nombreLinea = nombreLinea;
+        this.funcionando = funcionando;
     }
 
     public boolean eliminarEstacion(String estacion) {
@@ -29,6 +33,12 @@ public class Linea {
         for (String string : estaciones) {
             str += string + "|";
         }
-        return str;
+        String func;
+        if (funcionando) {
+            func = "en funcionamiento";
+        } else {
+            func = "fuera de funcionamiento";
+        }
+        return nombreLinea + str + ";" + func;
     }
 }

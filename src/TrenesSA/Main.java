@@ -75,6 +75,7 @@ public class Main {
         }
         br.close();
         registrarLog(sistemaToString());
+        System.out.println(trenes.listarRango(567, 1000));
         menuGeneral();
     }
 
@@ -159,7 +160,7 @@ public class Main {
                 String codigoPostal = tknAtr.nextToken();
                 int cantidadVias = Integer.parseInt(tknAtr.nextToken());
                 int cantidadPlataformas = Integer.parseInt(tknAtr.nextToken());
-                if (estaciones.insertar(nombreEstacion, new Estacion(calle, numeroCalle,
+                if (estaciones.insertar(nombreEstacion, new Estacion(nombreEstacion, calle, numeroCalle,
                         ciudad, codigoPostal, cantidadVias, cantidadPlataformas))) {
                     // Registo solo si inserto
                     registrarLog("Estacion cargada:" + nombreEstacion + ";" + calle + ";" + numeroCalle + ";" +
@@ -236,7 +237,8 @@ public class Main {
                     token = tknAtr.nextToken();
                 }
             }
-            lineas.put(key, new Linea(estacionesTemp));
+            // Se asume q las lineas q se insertan estan en funcionamiento
+            lineas.put(key, new Linea(key, estacionesTemp, true));
             // Verificar q puso?
             registrarLog("Linea cargada:" + key + ";" + lineasStringTemp);
         } else {
@@ -257,7 +259,7 @@ public class Main {
                 String linea = tknAtr.nextToken();
                 if (linea.equals("no-asignado") || lineas.get(linea) != null) {
                     if (trenes.insertar(codigo,
-                            new Tren(tipoDePropulsion, vagonesPasajeros,
+                            new Tren(codigo, tipoDePropulsion, vagonesPasajeros,
                                     vagonesCarga, linea))) {
                         registrarLog(
                                 "Tren insertado:" + codigo + ";" + tipoDePropulsion + ";"

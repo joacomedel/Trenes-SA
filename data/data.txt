@@ -95,3 +95,8 @@ R;Placeholder;Testeo falta tokens
 T;0101;diésel;6;6;TESTEO LINEA NO EXISTENTE
 T;0101;diésel;6;TESTEO METER STRING DONDE VA INT;Mitre
 T;0101;Testeo falta de tokens
+
+
+[Vertice 1]
+
+[Vertice 2](Vertice 1,10)

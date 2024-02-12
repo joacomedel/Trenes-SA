@@ -95,6 +95,7 @@ public class EstacionMenu {
                         Main.registrarLog("Fue eliminada la estacion:" + lectura);
                     } else {
                         System.out.println("No se encontro para eliminar");
+                        // Escribir en el log
                     }
                     break;
                 case "0":
@@ -123,7 +124,7 @@ public class EstacionMenu {
                     Main.registrarLog("Intenta buscar la estacion:" + lectura);
                     if (estacion != null) {
                         Main.registrarLog("Encuentra la estacion:" + lectura);
-                        System.out.println("Selecciono la estacion :" + lectura + ";" + estacion.toString());
+                        System.out.println("Selecciono la estacion :" + estacion.toString());
                         boolean continua2 = true;
                         do {
                             System.out.println("Ingrese 1 para modificar la calle");
@@ -258,31 +259,39 @@ public class EstacionMenu {
                 case "1":
                     System.out.println("Ingrese el nombre de la estacion");
                     String nombreEstacion = scGlobal.nextLine();
-                    System.out.println("Ingrese la calle de la estacion");
-                    String calleEstacion = scGlobal.nextLine();
-                    System.out.println("Ingreso el numero de calle es la estacion");
-                    String numeroCalleEstacion = scGlobal.nextLine();
-                    System.out.println("Ingrese la ciudad de la estacion");
-                    String ciudadDeLaEstacion = scGlobal.nextLine();
-                    System.out.println("Ingrese el codigo postal de la estacion");
-                    String codigoPostalEstacion = scGlobal.nextLine();
-                    System.out.println("Ingrese la cantidad de vias de la estacion");
-                    String cantidadViasEstacion = scGlobal.nextLine();
-                    System.out.println("Ingrese la cantidad de plataformas de la estacion");
-                    String cantidadPlataformasEstacion = scGlobal.nextLine();
-                    if (estacionesGlobal.insertar(nombreEstacion,
-                            new Estacion(calleEstacion, numeroCalleEstacion, ciudadDeLaEstacion, codigoPostalEstacion,
-                                    cantidadViasEstacion, cantidadPlataformasEstacion))) {
-                        System.out.println("Se inserto la estacion exitosamente:" + nombreEstacion + ";" + calleEstacion
-                                + ";" + numeroCalleEstacion + ";" + ciudadDeLaEstacion + ";" + codigoPostalEstacion
-                                + ";" +
-                                cantidadViasEstacion + ";" + cantidadPlataformasEstacion);
-                        Main.registrarLog("Se inserto la estacion exitosamente:" + nombreEstacion + ";" + calleEstacion
-                                + ";" + numeroCalleEstacion + ";" + ciudadDeLaEstacion + ";" + codigoPostalEstacion
-                                + ";" +
-                                cantidadViasEstacion + ";" + cantidadPlataformasEstacion);
+                    // Falta verificar q la estacion no este ingresada
+                    if (estacionesGlobal.obtener(nombreEstacion) == null) {
+                        System.out.println("Ingrese la calle de la estacion");
+                        String calleEstacion = scGlobal.nextLine();
+                        System.out.println("Ingreso el numero de calle es la estacion");
+                        String numeroCalleEstacion = scGlobal.nextLine();
+                        System.out.println("Ingrese la ciudad de la estacion");
+                        String ciudadDeLaEstacion = scGlobal.nextLine();
+                        System.out.println("Ingrese el codigo postal de la estacion");
+                        String codigoPostalEstacion = scGlobal.nextLine();
+                        System.out.println("Ingrese la cantidad de vias de la estacion");
+                        String cantidadViasEstacion = scGlobal.nextLine();
+                        System.out.println("Ingrese la cantidad de plataformas de la estacion");
+                        String cantidadPlataformasEstacion = scGlobal.nextLine();
+                        if (estacionesGlobal.insertar(nombreEstacion,
+                                new Estacion(nombreEstacion, calleEstacion, numeroCalleEstacion, ciudadDeLaEstacion,
+                                        codigoPostalEstacion,
+                                        cantidadViasEstacion, cantidadPlataformasEstacion))) {
+                            System.out.println("Se inserto la estacion exitosamente:" + nombreEstacion + ";"
+                                    + calleEstacion
+                                    + ";" + numeroCalleEstacion + ";" + ciudadDeLaEstacion + ";" + codigoPostalEstacion
+                                    + ";" +
+                                    cantidadViasEstacion + ";" + cantidadPlataformasEstacion);
+                            Main.registrarLog("Se inserto la estacion exitosamente:" + nombreEstacion + ";"
+                                    + calleEstacion
+                                    + ";" + numeroCalleEstacion + ";" + ciudadDeLaEstacion + ";" + codigoPostalEstacion
+                                    + ";" +
+                                    cantidadViasEstacion + ";" + cantidadPlataformasEstacion);
+                        } else {
+                            System.out.println("No se pudo ingresar la estacion");
+                        }
                     } else {
-                        System.out.println("No se pudo ingresar la estacion");
+                        System.out.println("Intento ingresar una estacion con un nombre q ya esta registrado");
                     }
                     break;
                 case "0":
@@ -311,7 +320,7 @@ public class EstacionMenu {
                     Estacion estacion = (Estacion) estacionesGlobal.obtener(lectura);
                     Main.registrarLog("Intenta buscar la estacion:" + lectura);
                     if (estacion != null) {
-                        System.out.println("La estacion q esta buscando es ," + lectura + estacion.toString());
+                        System.out.println("La estacion q esta buscando es ," + estacion.toString());
                         Main.registrarLog("Encontro la estacion:" + lectura);
                     } else {
                         System.out.println("No encontro la estacion:" + lectura);
@@ -341,7 +350,8 @@ public class EstacionMenu {
                     System.out.println("Ingrese la subcadena q quiere buscar");
                     lectura = scGlobal.nextLine();
                     Main.registrarLog("Intento buscar estacion con la substring:" + lectura);
-                    List<Object> lista = estacionesGlobal.obtenesSubString(lectura);
+                    // cambiarlo a listar por rango
+                    List<Object> lista = estacionesGlobal.listarRango(lectura, lectura + "ZZZ");
                     if (lista.size() != 0) {
                         System.out.println("Las estaciones encontradas son:");
                         for (Object object : lista) {

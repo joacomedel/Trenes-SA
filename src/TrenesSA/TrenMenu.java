@@ -193,10 +193,10 @@ public class TrenMenu {
                                                     + codigoTren);
                                     break;
                                 case "0":
-                                    System.out.println("El tren fue modificado , su estado actual es:" + codigoTren
-                                            + ";" + tren.toString());
-                                    Main.registrarLog("El tren fue modificado , su estado actual es:" + codigoTren
-                                            + ";" + tren.toString());
+                                    System.out
+                                            .println("El tren fue modificado , su estado actual es:" + tren.toString());
+                                    Main.registrarLog(
+                                            "El tren fue modificado , su estado actual es:" + tren.toString());
                                     System.out.println("Selecciono volver al menu anterior");
 
                                     continua = false;
@@ -234,28 +234,32 @@ public class TrenMenu {
                 case "1":
                     System.out.println("Ingrese el codigo del tren");
                     String codigo = scGlobal.nextLine();
-                    System.out.println("Ingrese el tipo de propulsion");
-                    String tipoDePropulsion = scGlobal.nextLine();
-                    System.out.println("Ingrese la cant de vagones para pasajeros");
-                    String vagonesPasajeros = scGlobal.nextLine();
-                    System.out.println("Ingrese la cantidad de vagones para carga");
-                    String vagonesCarga = scGlobal.nextLine();
-                    System.out.println("Ingrese la linea del tren");
-                    String linea = scGlobal.nextLine();
-                    Main.registrarLog(linea);
-                    Main.registrarLog("Se intenta agregar el tren:" + codigo + ";" + tipoDePropulsion + ";"
-                            + vagonesPasajeros + ";" + vagonesCarga + ";" + linea);
-                    if (trenesGlobal.insertar(codigo,
-                            new Tren(tipoDePropulsion, vagonesPasajeros, vagonesCarga, linea))) {
-                        System.out.println("Se agrego el tren:" + codigo + ";" + tipoDePropulsion + ";"
+                    if (trenesGlobal.obtener(codigo) == null) {
+                        System.out.println("Ingrese el tipo de propulsion");
+                        String tipoDePropulsion = scGlobal.nextLine();
+                        System.out.println("Ingrese la cant de vagones para pasajeros");
+                        String vagonesPasajeros = scGlobal.nextLine();
+                        System.out.println("Ingrese la cantidad de vagones para carga");
+                        String vagonesCarga = scGlobal.nextLine();
+                        System.out.println("Ingrese la linea del tren");
+                        String linea = scGlobal.nextLine();
+                        Main.registrarLog(linea);
+                        Main.registrarLog("Se intenta agregar el tren:" + codigo + ";" + tipoDePropulsion + ";"
                                 + vagonesPasajeros + ";" + vagonesCarga + ";" + linea);
-                        Main.registrarLog("Se agrego el tren:" + codigo + ";" + tipoDePropulsion + ";"
-                                + vagonesPasajeros + ";" + vagonesCarga + ";" + linea);
+                        if (trenesGlobal.insertar(codigo,
+                                new Tren(codigo, tipoDePropulsion, vagonesPasajeros, vagonesCarga, linea))) {
+                            System.out.println("Se agrego el tren:" + codigo + ";" + tipoDePropulsion + ";"
+                                    + vagonesPasajeros + ";" + vagonesCarga + ";" + linea);
+                            Main.registrarLog("Se agrego el tren:" + codigo + ";" + tipoDePropulsion + ";"
+                                    + vagonesPasajeros + ";" + vagonesCarga + ";" + linea);
+                        } else {
+                            System.out.println("No se pudo agregar el tren:" + codigo + ";" + tipoDePropulsion + ";"
+                                    + vagonesPasajeros + ";" + vagonesCarga + ";" + linea);
+                            Main.registrarLog("No se pudo agregar el tren:" + codigo + ";" + tipoDePropulsion + ";"
+                                    + vagonesPasajeros + ";" + vagonesCarga + ";" + linea);
+                        }
                     } else {
-                        System.out.println("No se pudo agregar el tren:" + codigo + ";" + tipoDePropulsion + ";"
-                                + vagonesPasajeros + ";" + vagonesCarga + ";" + linea);
-                        Main.registrarLog("No se pudo agregar el tren:" + codigo + ";" + tipoDePropulsion + ";"
-                                + vagonesPasajeros + ";" + vagonesCarga + ";" + linea);
+                        System.out.println("Intento ingresar un tren con un codigo ya registrado");
                     }
                     break;
                 case "0":
@@ -283,7 +287,7 @@ public class TrenMenu {
                     Main.registrarLog("Se intenta obtener el tren con codigo:" + lectura);
                     Tren tren = (Tren) trenesGlobal.obtener(lectura);
                     if (tren != null) {
-                        System.out.println("El tren es:" + lectura + ";" + tren.toString());
+                        System.out.println("El tren es:" + tren.toString());
                     } else {
                         System.out.println("No es encontro tren con el codigo:" + lectura);
                         Main.registrarLog("No es encontro tren con el codigo:" + lectura);

@@ -39,14 +39,6 @@ public class Diccionario {
                     nodo.setHijDer(new NodoDiccionario(clave, dato));
                     bool[0] = 1;
                 }
-            } else {
-                // igual
-                if (nodo.getHijDer() != null) {
-                    insertarRec(nodo.getHijDer(), nodo, clave, dato, bool);
-                } else {
-                    nodo.setHijDer(new NodoDiccionario(clave, dato));
-                    bool[0] = 1;
-                }
             }
         }
         nodo.calcularAltura();
@@ -271,29 +263,24 @@ public class Diccionario {
         return obtenerRecursivo(clave, raiz);
     }
 
-    public List<Object> obtenesSubString(String subString) {
+    public List<Object> listarRango(Comparable min, Comparable max) {
         List<Object> lista = new ArrayList<Object>();
-        if (this.raiz != null) {
-            obtenesSubStringAux(this.raiz, subString.length(), subString, lista);
-        }
+        listarRangoAux(raiz, min, max, lista);
         return lista;
     }
 
-    private void obtenesSubStringAux(NodoDiccionario nodo, int longSubString, String subString, List<Object> lista) {
+    private void listarRangoAux(NodoDiccionario nodo, Comparable min, Comparable max, List<Object> lista) {
         if (nodo != null) {
-            if (((String) nodo.getClave()).substring(0, longSubString).equals(subString)) {
+            int comparacionMin = nodo.getClave().compareTo(min);
+            int comparacionMax = nodo.getClave().compareTo(max);
+            if (comparacionMax < 0) {
+                listarRangoAux(nodo.getHijDer(), min, max, lista);
+            }
+            if (comparacionMin > 0) {
+                listarRangoAux(nodo.getHijIzq(), min, max, lista);
+            }
+            if (comparacionMin >= 0 && comparacionMax <= 0) {
                 lista.add(nodo.getDato());
-                obtenesSubStringAux(nodo.getHijIzq(), longSubString, subString, lista);
-                obtenesSubStringAux(nodo.getHijDer(), longSubString, subString, lista);
-                // Si encuentro la subString busco en los dos hijos
-            } else {
-                // Si no encuentro la substring comparo y viajo al hijo adecuado
-                int comparacion = ((Comparable) subString).compareTo(nodo.getClave());
-                if (comparacion < 0) {
-                    obtenesSubStringAux(nodo.getHijIzq(), longSubString, subString, lista);
-                } else {
-                    obtenesSubStringAux(nodo.getHijDer(), longSubString, subString, lista);
-                }
             }
         }
     }

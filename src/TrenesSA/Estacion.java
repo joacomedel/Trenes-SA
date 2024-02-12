@@ -3,6 +3,7 @@ package TrenesSA;
 import java.util.Set;
 
 public class Estacion {
+    String nombreEstacion;
     String calle;
     int numeroCalle;
     String ciudad;
@@ -10,8 +11,10 @@ public class Estacion {
     int cantidadVias;
     int cantidadPlataformas;
 
-    public Estacion(String calle, int numeroCalle, String ciudad, String codigoPostal, int cantidadVias,
+    public Estacion(String nombreEstacion, String calle, int numeroCalle, String ciudad, String codigoPostal,
+            int cantidadVias,
             int cantidadPlataformas) {
+        this.nombreEstacion = nombreEstacion;
         this.calle = calle;
         this.numeroCalle = numeroCalle;
         this.ciudad = ciudad;
@@ -19,6 +22,18 @@ public class Estacion {
         this.cantidadVias = cantidadVias;
         this.cantidadPlataformas = cantidadPlataformas;
 
+    }
+
+    public Estacion(String nombreEstacion, String calle, String numeroCalle, String ciudad, String codigoPostal,
+            String cantidadVias,
+            String cantidadPlataformas) {
+        this.nombreEstacion = nombreEstacion;
+        this.calle = calle;
+        this.numeroCalle = Integer.parseInt(numeroCalle);
+        this.ciudad = ciudad;
+        this.codigoPostal = codigoPostal;
+        this.cantidadVias = Integer.parseInt(cantidadVias);
+        this.cantidadPlataformas = Integer.parseInt(cantidadPlataformas);
     }
 
     public void setCalle(String calle) {
@@ -71,17 +86,9 @@ public class Estacion {
 
     @Override
     public String toString() {
-        return calle + ";" + numeroCalle + ";" + ciudad + ";" + codigoPostal + ";" + cantidadVias + ";"
+        return nombreEstacion + ";" + calle + ";" + numeroCalle + ";" + ciudad + ";" + codigoPostal + ";" + cantidadVias
+                + ";"
                 + cantidadPlataformas;
     }
 
-    public Estacion(String calle, String numeroCalle, String ciudad, String codigoPostal, String cantidadVias,
-            String cantidadPlataformas) {
-        this.calle = calle;
-        this.numeroCalle = Integer.parseInt(numeroCalle);
-        this.ciudad = ciudad;
-        this.codigoPostal = codigoPostal;
-        this.cantidadVias = Integer.parseInt(cantidadVias);
-        this.cantidadPlataformas = Integer.parseInt(cantidadPlataformas);
-    }
 }

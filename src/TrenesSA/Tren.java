@@ -1,23 +1,26 @@
 package TrenesSA;
 
 public class Tren {
+    int codigo;
     String tipoDePropulsion;
     int vagonesPasajeros;
     int vagonesCarga;
     String linea;
 
-    public Tren(String tipoDePropulsion, int vagonesPasajeros, int vagonesCarga, String linea) {
+    public Tren(int codigo, String tipoDePropulsion, int vagonesPasajeros, int vagonesCarga, String linea) {
+        this.codigo = codigo;
         this.tipoDePropulsion = tipoDePropulsion;
         this.vagonesCarga = vagonesCarga;
         this.vagonesPasajeros = vagonesPasajeros;
         this.linea = linea;
     }
 
-    public Tren(String tipoDePropulsion, String vagonesPasajeros, String vagonesCarga, String linea) {
+    public Tren(String codigo, String tipoDePropulsion, String vagonesPasajeros, String vagonesCarga, String linea) {
         this.tipoDePropulsion = tipoDePropulsion;
         this.vagonesCarga = Integer.parseInt(vagonesCarga);
         this.vagonesPasajeros = Integer.parseInt(vagonesPasajeros);
         this.linea = linea;
+        this.codigo = Integer.parseInt(codigo);
     }
 
     public void setLinea(String linea) {
@@ -54,7 +57,7 @@ public class Tren {
 
     @Override
     public String toString() {
-        return tipoDePropulsion + ";" + vagonesPasajeros + ";" + vagonesCarga + ";" + linea;
+        return codigo + ";" + tipoDePropulsion + ";" + vagonesPasajeros + ";" + vagonesCarga + ";" + linea;
     }
 
 }

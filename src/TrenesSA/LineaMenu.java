@@ -91,7 +91,7 @@ public class LineaMenu {
                     Linea linea = (Linea) lineasGlobal.get(lectura);
                     if (linea != null) {
                         Main.registrarLog("Se encontro la linea:" + lectura);
-                        System.out.println("Selecciono la linea:" + lectura + ";" + linea.toString());
+                        System.out.println("Selecciono la linea:" + linea.toString());
                         String nombreLinea = lectura;
                         boolean continua2 = true;
                         do {
@@ -112,8 +112,8 @@ public class LineaMenu {
                                     break;
                                 case "0":
                                     System.out.println("Selecciono volver al menu anterior");
-                                    Main.registrarLog("Se modifico la linea:" + nombreLinea + ";" + linea.toString());
-                                    System.out.println("Se modifico la linea:" + nombreLinea + ";" + linea.toString());
+                                    Main.registrarLog("Se modifico la linea:" + linea.toString());
+                                    System.out.println("Se modifico la linea:" + linea.toString());
                                     continua2 = false;
                                     break;
                                 default:
@@ -148,33 +148,39 @@ public class LineaMenu {
                 case "1":
                     System.out.println("Ingrese el nombre de la linea");
                     String nombreLinea = scGlobal.nextLine();
-                    List<String> estacionesTemp = new ArrayList<String>();
-                    String estacionesTempStr = "";
-                    boolean continua2 = true;
-                    do {
-                        System.out.println("Ingrese 1 para ingresar una estacion");
-                        System.out.println("Ingrese 0 para dejar de ingresar estacion");
-                        lectura = scGlobal.nextLine();
-                        switch (lectura) {
-                            case "1":
-                                System.out.println("Ingrese el nombre de la estacion");
-                                lectura = scGlobal.nextLine();
-                                estacionesTemp.add(lectura);
-                                estacionesTempStr += lectura + ";";
-                                break;
-                            case "0":
-                                System.out.println("Selecciono volver al menu anterior");
-                                continua = false;
-                                break;
-                            default:
-                                System.out
-                                        .println("Selecciono una opcion no valida porfavor ingrese una funcion valida");
-                                break;
-                        }
-                    } while (continua2);
-                    lineasGlobal.put(nombreLinea, new Linea(estacionesTemp));
-                    Main.registrarLog("Se ingreso la linea:" + nombreLinea + ";" + estacionesTempStr);
-                    System.out.println("Se ingreso la linea:" + nombreLinea + ";" + estacionesTempStr);
+                    if (!lineasGlobal.containsKey(nombreLinea)) {
+                        List<String> estacionesTemp = new ArrayList<String>();
+                        String estacionesTempStr = "";
+                        boolean continua2 = true;
+                        do {
+                            System.out.println("Ingrese 1 para ingresar una estacion");
+                            System.out.println("Ingrese 0 para dejar de ingresar estacion");
+                            lectura = scGlobal.nextLine();
+                            switch (lectura) {
+                                case "1":
+                                    System.out.println("Ingrese el nombre de la estacion");
+                                    lectura = scGlobal.nextLine();
+                                    estacionesTemp.add(lectura);
+                                    estacionesTempStr += lectura + ";";
+                                    break;
+                                case "0":
+                                    System.out.println("Selecciono volver al menu anterior");
+                                    continua = false;
+                                    break;
+                                default:
+                                    System.out
+                                            .println(
+                                                    "Selecciono una opcion no valida porfavor ingrese una funcion valida");
+                                    break;
+                            }
+                        } while (continua2);
+                        // Se asume q las lineas se cargan en funcionamiento
+                        lineasGlobal.put(nombreLinea, new Linea(nombreLinea, estacionesTemp, true));
+                        Main.registrarLog("Se ingreso la linea:" + nombreLinea + ";" + estacionesTempStr);
+                        System.out.println("Se ingreso la linea:" + nombreLinea + ";" + estacionesTempStr);
+                    } else {
+                        System.out.println("Intento ingresar una linea q ya estaba registrada");
+                    }
                     break;
                 case "0":
                     System.out.println("Selecciono volver al menu anterior");

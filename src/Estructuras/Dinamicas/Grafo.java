@@ -57,7 +57,6 @@ public class Grafo {
         }
         exito = nodoOrigen != null && nodoFinal != null;
         if (exito) {
-
             nodoOrigen.setPrimerAdy(new NodoAdy(nodoFinal, nodoOrigen.getPrimerAdy(), etiqueta));
             if (nodoOrigen != nodoFinal) {
                 // Solo entra cuando los nodos son distintos , si fueran iguales seria un lazo y
@@ -127,6 +126,7 @@ public class Grafo {
         boolean exito = false;
         NodoVertice aux = this.nodoInicial;
         NodoVertice nodoOrigen = null;
+        // nodoFinal no se usa
         NodoVertice nodoFinal = null;
         boolean elemVert1Comparado = false;
         while (aux != null && nodoOrigen == null) {
@@ -356,11 +356,11 @@ public class Grafo {
             if (!encontroA && !encontroB) {
                 aux = aux.getSigNodoVert();
             }
-            if (encontroA) {
-                caminosPosiblesSinPasarAux(aux, b, c, listaDeListas, new ArrayList<>());
-            } else if (encontroB) {
-                caminosPosiblesSinPasarAux(aux, a, c, listaDeListas, new ArrayList<>());
-            }
+        }
+        if (encontroA) {
+            caminosPosiblesSinPasarAux(aux, b, c, listaDeListas, new ArrayList<>());
+        } else if (encontroB) {
+            caminosPosiblesSinPasarAux(aux, a, c, listaDeListas, new ArrayList<>());
         }
         return listaDeListas;
     }
@@ -439,7 +439,6 @@ public class Grafo {
             }
         }
         return existeCamino;
-
     }
 
     @Override
